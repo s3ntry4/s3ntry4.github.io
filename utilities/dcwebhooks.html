@@ -1,5 +1,5 @@
 <head>
-	<title>discord webhook sender</title>
+	<title>dwcs</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<!-- UIkit CSS -->
 	<link
@@ -20,11 +20,24 @@
 
 <body class="uk-margin-right uk-margin-left uk-margin">
 	<div class="uk-container-expand uk-margin-xlarge-left uk-margin-xlarge-right">
-		<h1>hello!</h1>
+		<h1>dcws</h1>
 		<hr />
-		<ul class="uk-subnav uk-subnav-pill" uk-switcher>
-			<li><a href="#">Setup</a></li>
-			<li><a href="#">Actions</a></li>
+		<!--<ul class="uk-tab-bottom" uk-tab="media: @s">-->
+		<ul
+			class="uk-iconnav"
+			uk-switcher="animation: uk-animation-slide-top-small"
+		>
+			<li><a uk-icon="menu" uk-tooltip="Select Webhook"></a></li>
+			<li><a uk-icon="comment" uk-tooltip="Send Messages"></a></li>
+			<li><a uk-icon="cog" uk-tooltip="Config"></a></li>
+			<li>
+				<a
+					target="_blank"
+					href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks"
+					uk-icon="question"
+					uk-tooltip="Help"
+				></a>
+			</li>
 		</ul>
 		<ul class="uk-switcher uk-margin uk-container">
 			<li>
@@ -50,7 +63,9 @@
 		$("#send").click(function () {
 			if (uurl) {
 				UIkit.modal.prompt("Enter a message below:").then(function (msg) {
-					$.post(uurl, { content: msg });
+					$.post(uurl, { content: msg }, function (data) {
+						UIkit.notification("Message sent successfully!");
+					});
 				});
 			} else {
 				UIkit.notification("Set up a webhook first!");
