@@ -1,0 +1,75 @@
+<head>
+	<title>discord webhook sender</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<!-- UIkit CSS -->
+	<link
+		rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/uikit@3.11.1/dist/css/uikit.min.css"
+	/>
+
+	<!-- UIkit JS -->
+	<script src="https://cdn.jsdelivr.net/npm/uikit@3.11.1/dist/js/uikit.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/uikit@3.11.1/dist/js/uikit-icons.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<style>
+		* {
+		    font-family: Calibri, sans-serif
+		}
+	</style>
+</head>
+
+<body class="uk-margin-right uk-margin-left uk-margin">
+	<div class="uk-container-expand uk-margin-xlarge-left uk-margin-xlarge-right">
+		<h1>hello!</h1>
+		<hr />
+		<ul class="uk-subnav uk-subnav-pill" uk-switcher>
+			<li><a href="#">Setup</a></li>
+			<li><a href="#">Actions</a></li>
+		</ul>
+		<ul class="uk-switcher uk-margin uk-container">
+			<li>
+				<button id="setup" class="uk-button uk-button-primary">
+					Set up new webhook
+				</button>
+			</li>
+			<li>
+				<button id="send" class="uk-button">Send message via webhook</button>
+			</li>
+		</ul>
+	</div>
+	<script>
+		let uurl = false;
+
+		function eli(id) {
+			return document.getElementById(id);
+		}
+		function elc(cl) {
+			return document.getElementsByClassName(cl);
+		}
+
+		$("#send").click(function () {
+			if (uurl) {
+				UIkit.modal.prompt("Enter a message below:").then(function (msg) {
+					$.post(uurl, { content: msg });
+				});
+			} else {
+				UIkit.notification("Set up a webhook first!");
+			}
+		});
+
+		$("#setup").click(function () {
+			UIkit.modal
+				.prompt(
+					"Enter <a target='_blank' href='https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks'>webhook URL</a> below:"
+				)
+				.then(function (wurl) {
+					console.log(wurl);
+					if (wurl.substr(0, 33) === "https://discord.com/api/webhooks/") {
+						uurl = wurl;
+					} else {
+						UIkit.notification("Invalid webhook URL!", { status: "danger" });
+					}
+				});
+		});
+	</script>
+</body>
